@@ -17,7 +17,7 @@ import okhttp3.Response;
  * Created by zhangzhuang on 17/10/17.
  */
 
-public class BaseHttpUtil {
+public class BaseHttp {
 
 //    /**
 //     * GET无参数请求

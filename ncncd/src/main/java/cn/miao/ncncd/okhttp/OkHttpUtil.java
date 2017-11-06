@@ -12,18 +12,18 @@ public class OkHttpUtil {
 
     public static void sendGet(String url, HttpCallBack httpCallBack) {
 
-        BaseHttpUtil.okHttpGet(url, null, httpCallBack);
+        BaseHttp.okHttpGet(url, null, httpCallBack);
     }
 
     public static void sendGet(String url, Object paramers, HttpCallBack httpCallBack) {
 
         Map map = ConvertObjToMap(paramers);
-        BaseHttpUtil.okHttpGet(url, map, httpCallBack);
+        BaseHttp.okHttpGet(url, map, httpCallBack);
     }
 
     public static void sendPost(String url, Object paramers, HttpCallBack httpCallBack) {
 
-        BaseHttpUtil.okHttpPost(url, paramers, httpCallBack);
+        BaseHttp.okHttpPost(url, paramers, httpCallBack);
     }
 
     /**
