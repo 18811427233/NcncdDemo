@@ -17,15 +17,15 @@
             </intent-filter>
         </activity>
 
-        <!-- appKey-->
+        <!-- 测试appKey-->
         <meta-data
             android:name="appKey"
-            android:value="4b6e8877dfcc2462bedb37dcf66b6d8" >
+            android:value="4b6e8877dfcc2462bedb37dcf66b6d812" >
         </meta-data>
-        <!-- appSecret-->
+        <!-- 测试appSecret-->
         <meta-data
             android:name="appSecret"
-            android:value="4b6e8877dfcc2462bedb37dcf66b6d" >
+            android:value="4b6e8877dfcc2462bedb37dcf66b6d113" >
         </meta-data>
 
     </application>

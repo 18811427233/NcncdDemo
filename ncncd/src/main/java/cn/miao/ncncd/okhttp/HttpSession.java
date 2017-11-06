@@ -9,7 +9,7 @@ import java.util.Map;
  * Created by zhangzhuang on 17/10/17.
  */
 
-public class HttpUtil {
+public class HttpSession {
 
     /**
      * 无参数get请求

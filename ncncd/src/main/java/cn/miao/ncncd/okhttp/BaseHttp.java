@@ -1,10 +1,13 @@
 package cn.miao.ncncd.okhttp;
 
+import android.util.Log;
+
 import com.alibaba.fastjson.JSON;
 
 import java.io.IOException;
 import java.util.Map;
 
+import cn.miao.ncncd.okhttp.entity.CommonResp;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -14,11 +17,13 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
- *  网络请求基础类
+ * 网络请求基础类
  * Created by zhangzhuang on 17/10/17.
  */
 
 public class BaseHttp {
+
+    private static final String TAG = "BaseHttp";
 
     /**
      * GET有参数请求
@@ -71,6 +76,11 @@ public class BaseHttp {
                 .url(url)
                 .post(body)
                 .build();
+        httpCallBack.onStart();
+
+        /*打印请求url、参数*/
+        Log.e(TAG, "url:" + url);
+        Log.e(TAG, "ReqBody:" + JSON.toJSONString(object));
 
         client.newCall(request).enqueue(new Callback() {
             @Override
@@ -81,10 +91,17 @@ public class BaseHttp {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
 
-                if (response.isSuccessful()) {
-                    httpCallBack.onSuccess(response.body().string());
+                String body = response.body().string();
+
+                CommonResp commonResp = JSON.parseObject(body, CommonResp.class);
+
+                if (commonResp.getErrNo() ==0) {
+
+                    httpCallBack.onSuccess(body);
+
                 } else {
-                    httpCallBack.onFailure(response.code(), response.message(), null);
+
+                    httpCallBack.onFailure(commonResp.getErrNo(), commonResp.getErrMsg(), null);
                 }
 
                 httpCallBack.onFinish();
@@ -94,7 +111,7 @@ public class BaseHttp {
     }
 
     /**
-     *  get请求，只有键值对参数，进行url拼接
+     * get请求，只有键值对参数，进行url拼接
      *
      * @param mUrl
      * @param mParamsMap
