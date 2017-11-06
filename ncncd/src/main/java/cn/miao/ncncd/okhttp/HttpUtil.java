@@ -5,22 +5,40 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * 网络请封装类
  * Created by zhangzhuang on 17/10/17.
  */
 
-public class OkHttpUtil {
+public class HttpUtil {
 
+    /**
+     * 无参数get请求
+     * @param url
+     * @param httpCallBack
+     */
     public static void sendGet(String url, HttpCallBack httpCallBack) {
 
         BaseHttp.okHttpGet(url, null, httpCallBack);
     }
 
+    /**
+     * 有参数get请求
+     * @param url
+     * @param paramers
+     * @param httpCallBack
+     */
     public static void sendGet(String url, Object paramers, HttpCallBack httpCallBack) {
 
         Map map = ConvertObjToMap(paramers);
         BaseHttp.okHttpGet(url, map, httpCallBack);
     }
 
+    /**
+     * post请求
+     * @param url
+     * @param paramers
+     * @param httpCallBack
+     */
     public static void sendPost(String url, Object paramers, HttpCallBack httpCallBack) {
 
         BaseHttp.okHttpPost(url, paramers, httpCallBack);

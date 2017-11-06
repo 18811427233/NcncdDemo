@@ -12,10 +12,10 @@ public class HttpConstant {
 //    cast_app
 //    111111
 
-    /*测试*/
     private static final String BASE_PATH = "http://118.190.93.145:8026/api/";
 
-    public static final String PATH_CAROUSEL_LIST = BASE_PATH + "carousel/list";
-    public static final String PATH_FEEDBACK_CREATE = BASE_PATH + "feedback/create";
-
-    public static final String PATH_DATA_UPLOAD_TEST = BASE_PATH + "data/upload/test";}
+    /**
+     * API签名调试
+     */
+    public static final String PATH_DATA_UPLOAD_TEST = BASE_PATH + "data/upload/test";
+}

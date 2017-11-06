@@ -5,7 +5,7 @@ package cn.miao.ncncd.okhttp;
  *
  * @see HttpCallBack
  */
-public class HttpHandlerAdapter implements HttpCallBack {
+public class HttpHandler implements HttpCallBack {
 
     @Override
     public void onStart() {

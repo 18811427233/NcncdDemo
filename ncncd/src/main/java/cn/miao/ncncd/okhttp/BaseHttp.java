@@ -14,47 +14,11 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
+ *  网络请求基础类
  * Created by zhangzhuang on 17/10/17.
  */
 
 public class BaseHttp {
-
-//    /**
-//     * GET无参数请求
-//     *
-//     * @param url
-//     * @param httpCallBack
-//     */
-//    public static void okHttpGet(String url, final HttpCallBack httpCallBack) {
-//        OkHttpClient client = new OkHttpClient();//创建OkHttpClient对象。
-//        Request request = new Request.Builder()//创建Request 对象。
-//                .url(url)
-//                .build();
-//
-//        httpCallBack.onStart();
-//        client.newCall(request).enqueue(new Callback() {
-//
-//            @Override
-//            public void onFailure(Call call, IOException e) {
-//
-//                httpCallBack.onNetError();
-//            }
-//
-//            @Override
-//            public void onResponse(Call call, Response response) throws IOException {
-//
-//                if (response.isSuccessful()) {
-//                    httpCallBack.onSuccess(response.body().string());
-//                } else {
-//                    httpCallBack.onFailure(response.code(), response.message(), null);
-//                }
-//
-//                httpCallBack.onFinish();
-//
-//            }
-//
-//        });
-//    }
 
     /**
      * GET有参数请求
@@ -130,7 +94,11 @@ public class BaseHttp {
     }
 
     /**
-     * get请求，只有键值对参数
+     *  get请求，只有键值对参数，进行url拼接
+     *
+     * @param mUrl
+     * @param mParamsMap
+     * @return
      */
     private static String setGetParams(String mUrl, Map<String, String> mParamsMap) {
         if (mParamsMap != null) {

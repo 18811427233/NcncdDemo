@@ -10,7 +10,7 @@ import com.alibaba.fastjson.JSON;
 
 import cn.miao.ncncd.okhttp.HttpCallBack;
 import cn.miao.ncncd.okhttp.HttpConstant;
-import cn.miao.ncncd.okhttp.OkHttpUtil;
+import cn.miao.ncncd.okhttp.HttpUtil;
 import cn.miao.ncncd.okhttp.entity.DataUploadReq;
 import cn.miao.ncncd.util.HmacSha256Util;
 import cn.miao.ncncd.util.MetaDataUtil;
@@ -72,8 +72,7 @@ public class MainActivity extends AppCompatActivity {
                 dataUploadReq.setSign(sign);
                 dataUploadReq.setTimestamp((int) System.currentTimeMillis());
 
-                OkHttpUtil okHttpUtil = new OkHttpUtil();
-                okHttpUtil.sendPost(HttpConstant.PATH_DATA_UPLOAD_TEST, dataUploadReq, new HttpCallBack() {
+                HttpUtil.sendPost(HttpConstant.PATH_DATA_UPLOAD_TEST, dataUploadReq, new HttpCallBack() {
                     @Override
                     public void onStart() {
                         Log.e(TAG, "=======onStart====");
