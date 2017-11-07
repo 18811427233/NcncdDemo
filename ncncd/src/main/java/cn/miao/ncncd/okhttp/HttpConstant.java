@@ -21,5 +21,5 @@ public class HttpConstant {
     /**
      * 上传血糖数据
      */
-    public static final String PATH_DATA_UPLOAD_BLOOD_SUGAR = BASE_PATH + "data/upload/blood/sugar";
+    public static final String PATH_DATA_UPLOAD_BLOOD_SUGAR = BASE_PATH + "data/upload/bloodSugar";
 }

@@ -6,7 +6,7 @@ import android.content.pm.PackageManager;
 import android.text.TextUtils;
 
 /**
- *  获取application中指定的meta-data
+ *  获取application中指定的meta-data工具类
  * Created by zhangzhuang on 17/11/6.
  */
 

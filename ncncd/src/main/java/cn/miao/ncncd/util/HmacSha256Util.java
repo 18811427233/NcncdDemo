@@ -7,6 +7,7 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 /**
+ * 签名加密工具类
  * Created by zhangzhuang on 17/11/6.
  */
 

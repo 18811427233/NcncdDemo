@@ -9,7 +9,6 @@ import java.util.List;
 
 import cn.miao.ncncd.okhttp.HttpCallBack;
 import cn.miao.ncncd.okhttp.HttpConstant;
-import cn.miao.ncncd.okhttp.HttpHandler;
 import cn.miao.ncncd.okhttp.HttpSession;
 import cn.miao.ncncd.okhttp.entity.BloodSugar;
 import cn.miao.ncncd.okhttp.entity.CommonReq;
@@ -27,11 +26,11 @@ public class BloodSugarApi {
     /**
      * 上传血糖数据
      *
-     * @param telephone   电话号
-     * @param type        血糖类型 1空腹 2餐后
-     * @param httpHandler
+     * @param telephone         电话号
+     * @param bloodSugarList    业务参数
+     * @param callBackInterface
      */
-    public static void bloodSugar(String telephone, int type, final HttpHandler httpHandler) {
+    public static void bloodSugar(String telephone, List<BloodSugar> bloodSugarList, final CallBackInterface callBackInterface) {
 
 //                String appKey = MetaDataUtil.getAppMetaData(MainActivity.this, "appKey");
 //                String appSecret = MetaDataUtil.getAppMetaData(MainActivity.this, "appSecret");
@@ -41,24 +40,14 @@ public class BloodSugarApi {
         Log.e(TAG, "======appKey=====" + appKey);
         Log.e(TAG, "======appSecret=====" + appSecret);
 
-//        int timestamp = (int) (System.currentTimeMillis() / 1000);
-        int timestamp = 0;
-
+        int timestamp = (int) (System.currentTimeMillis() / 1000);
         List<BloodSugar> bloodSugars = new ArrayList<BloodSugar>();
-
-        for (int i = 0; i < 1; i++) {
-             /*业务参数*/
-            BloodSugar bloodSugar = new BloodSugar();
-            bloodSugar.setType(type);
-            bloodSugar.setValue(1);
-            bloodSugar.setSampleTime(timestamp);
-            bloodSugars.add(bloodSugar);
-        }
+        bloodSugars.addAll(bloodSugarList);
 
         String s1 = JSON.toJSONString(bloodSugars);
         Log.e(TAG, "======s=====" + s1);
 
-        String s = appKey + timestamp + s1;
+        String s = appKey + timestamp + telephone + s1;
         String sign = HmacSha256Util.createSign(s.getBytes(), appSecret.getBytes());
 
         CommonReq commonReq = new CommonReq();
@@ -72,30 +61,30 @@ public class BloodSugarApi {
             @Override
             public void onStart() {
 
-                httpHandler.onStart();
+                callBackInterface.onStart();
             }
 
             @Override
             public void onSuccess(String response) {
 
-                httpHandler.onSuccess(response);
+                callBackInterface.onSuccess();
             }
 
             @Override
             public void onFailure(int statusCode, String response, Throwable error) {
 
-                httpHandler.onFailure(statusCode, response, error);
+                callBackInterface.onFailure(response);
             }
 
             @Override
             public void onNetError() {
-                httpHandler.onNetError();
+                callBackInterface.onNetError();
             }
 
             @Override
             public void onFinish() {
 
-                httpHandler.onFinish();
+                callBackInterface.onFinish();
             }
         });
     }
