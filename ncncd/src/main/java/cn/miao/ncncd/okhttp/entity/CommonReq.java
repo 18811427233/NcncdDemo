@@ -1,13 +1,10 @@
 package cn.miao.ncncd.okhttp.entity;
 
-import com.alibaba.fastjson.JSON;
-
 /**
- *  API签名
- * Created by zhangzhuang on 17/11/3.
+ * Created by zhangzhuang on 17/11/7.
  */
 
-public class DataUploadReq {
+public class CommonReq {
 
     /**
      * appkey
@@ -20,9 +17,14 @@ public class DataUploadReq {
     private int timestamp;
 
     /**
+     * 手机号
+     */
+    private String telephone;
+
+    /**
      * 业务参数
      */
-    private JSON data;
+    private String data;
 
     /**
      * 签名参数
@@ -45,11 +47,19 @@ public class DataUploadReq {
         this.timestamp = timestamp;
     }
 
-    public JSON getData() {
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
+    }
+
+    public String getData() {
         return data;
     }
 
-    public void setData(JSON data) {
+    public void setData(String data) {
         this.data = data;
     }
 

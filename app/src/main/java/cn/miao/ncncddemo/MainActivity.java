@@ -8,14 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-
-import cn.miao.ncncd.okhttp.HttpCallBack;
-import cn.miao.ncncd.okhttp.HttpConstant;
-import cn.miao.ncncd.okhttp.HttpSession;
-import cn.miao.ncncd.okhttp.entity.DataUploadReq;
-import cn.miao.ncncd.util.HmacSha256Util;
+import cn.miao.ncncd.api.BloodSugarApi;
+import cn.miao.ncncd.okhttp.HttpHandler;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -54,43 +48,25 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-//                String appKey = MetaDataUtil.getAppMetaData(MainActivity.this, "appKey");
-//                String appSecret = MetaDataUtil.getAppMetaData(MainActivity.this, "appSecret");
-                String appKey = "1";
-                String appSecret = "1";
+                BloodSugarApi.bloodSugar("18811427233",1,new HttpHandler(){
 
-                Log.e(TAG, "======appKey=====" + appKey);
-                Log.e(TAG, "======appSecret=====" + appSecret);
-
-                String s = "10[{\"beginTime\":\"2017-10-10 00:00:00\",\"endTime\":\"2017-10-10 23:59:59\"}]";
-                String sign = HmacSha256Util.createSign(s.getBytes(), appSecret.getBytes());
-                String jsonString = "[{\n" +
-                        "        \"beginTime\":\"2017-10-10 00:00:00\",\n" +
-                        "        \"endTime\":\"2017-10-10 23:59:59\"\n" +
-                        "    }]";
-
-                JSONArray json = JSON.parseArray(jsonString);
-                Log.e(TAG, "====== System.currentTimeMillis()=====" + System.currentTimeMillis());
-
-                DataUploadReq dataUploadReq = new DataUploadReq();
-                dataUploadReq.setAppKey(appKey);
-                dataUploadReq.setData(json);
-                dataUploadReq.setSign(sign);
-                dataUploadReq.setTimestamp(0);
-
-                HttpSession.sendPost(HttpConstant.PATH_DATA_UPLOAD_TEST, dataUploadReq, new HttpCallBack() {
                     @Override
                     public void onStart() {
-                        Log.e(TAG, "=======onStart====");
+                        super.onStart();
+
+                        Log.e(TAG,"====onStart=====");
                     }
 
                     @Override
                     public void onSuccess(String response) {
-                        Log.e(TAG, "=======onSuccess====");
+                        super.onSuccess(response);
+                        Log.e(TAG,"====onSuccess=====");
                     }
 
                     @Override
                     public void onFailure(int statusCode, String response, Throwable error) {
+                        super.onFailure(statusCode, response, error);
+                        Log.e(TAG,"====onFailure=====");
 
                         Looper.prepare();
                         Toast.makeText(MainActivity.this, response, Toast.LENGTH_SHORT).show();
@@ -98,18 +74,66 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onNetError() {
-                        Log.e(TAG, "=======onNetError====");
-                    }
-
-                    @Override
                     public void onFinish() {
-                        Log.e(TAG, "=======onFinish====");
+                        super.onFinish();
+                        Log.e(TAG,"====onFinish=====");
                     }
                 });
+
+////                String appKey = MetaDataUtil.getAppMetaData(MainActivity.this, "appKey");
+////                String appSecret = MetaDataUtil.getAppMetaData(MainActivity.this, "appSecret");
+//                String appKey = "1";
+//                String appSecret = "1";
+//
+//                Log.e(TAG, "======appKey=====" + appKey);
+//                Log.e(TAG, "======appSecret=====" + appSecret);
+//
+//                String s = "10[{\"beginTime\":\"2017-10-10 00:00:00\",\"endTime\":\"2017-10-10 23:59:59\"}]";
+//                String sign = HmacSha256Util.createSign(s.getBytes(), appSecret.getBytes());
+//                String jsonString = "[{\n" +
+//                        "        \"beginTime\":\"2017-10-10 00:00:00\",\n" +
+//                        "        \"endTime\":\"2017-10-10 23:59:59\"\n" +
+//                        "    }]";
+//
+//                JSONArray json = JSON.parseArray(jsonString);
+//                Log.e(TAG, "====== System.currentTimeMillis()=====" + System.currentTimeMillis());
+//
+//                DataUploadReq dataUploadReq = new DataUploadReq();
+//                dataUploadReq.setAppKey(appKey);
+//                dataUploadReq.setData(json);
+//                dataUploadReq.setSign(sign);
+//                dataUploadReq.setTimestamp(0);
+//
+//                HttpSession.sendPost(HttpConstant.PATH_DATA_UPLOAD_TEST, dataUploadReq, new HttpCallBack() {
+//                    @Override
+//                    public void onStart() {
+//                        Log.e(TAG, "=======onStart====");
+//                    }
+//
+//                    @Override
+//                    public void onSuccess(String response) {
+//                        Log.e(TAG, "=======onSuccess====");
+//                    }
+//
+//                    @Override
+//                    public void onFailure(int statusCode, String response, Throwable error) {
+//
+//                        Looper.prepare();
+//                        Toast.makeText(MainActivity.this, response, Toast.LENGTH_SHORT).show();
+//                        Looper.loop();
+//                    }
+//
+//                    @Override
+//                    public void onNetError() {
+//                        Log.e(TAG, "=======onNetError====");
+//                    }
+//
+//                    @Override
+//                    public void onFinish() {
+//                        Log.e(TAG, "=======onFinish====");
+//                    }
+//                });
             }
         });
     }
-
-
 }

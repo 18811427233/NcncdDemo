@@ -93,9 +93,11 @@ public class BaseHttp {
 
                 String body = response.body().string();
 
+                Log.e(TAG, "===========" + body);
+
                 CommonResp commonResp = JSON.parseObject(body, CommonResp.class);
 
-                if (commonResp.getErrNo() ==0) {
+                if (commonResp.getErrNo() == 0) {
 
                     httpCallBack.onSuccess(body);
 

@@ -18,4 +18,8 @@ public class HttpConstant {
      * API签名调试
      */
     public static final String PATH_DATA_UPLOAD_TEST = BASE_PATH + "data/upload/test";
+    /**
+     * 上传血糖数据
+     */
+    public static final String PATH_DATA_UPLOAD_BLOOD_SUGAR = BASE_PATH + "data/upload/blood/sugar";
 }
