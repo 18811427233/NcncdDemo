@@ -28,10 +28,10 @@ public class BloodSugarApi {
      * 上传血糖数据
      *
      * @param telephone   电话号
-     * @param type        测量数值 1空腹 2餐后
+     * @param type        血糖类型 1空腹 2餐后
      * @param httpHandler
      */
-    public static void bloodSugar(String telephone, float type, final HttpHandler httpHandler) {
+    public static void bloodSugar(String telephone, int type, final HttpHandler httpHandler) {
 
 //                String appKey = MetaDataUtil.getAppMetaData(MainActivity.this, "appKey");
 //                String appSecret = MetaDataUtil.getAppMetaData(MainActivity.this, "appSecret");
@@ -49,8 +49,8 @@ public class BloodSugarApi {
         for (int i = 0; i < 1; i++) {
              /*业务参数*/
             BloodSugar bloodSugar = new BloodSugar();
-            bloodSugar.setType(1);
-            bloodSugar.setValue(type);
+            bloodSugar.setType(type);
+            bloodSugar.setValue(1);
             bloodSugar.setSampleTime(timestamp);
             bloodSugars.add(bloodSugar);
         }
@@ -71,14 +71,12 @@ public class BloodSugarApi {
         HttpSession.sendPost(HttpConstant.PATH_DATA_UPLOAD_BLOOD_SUGAR, commonReq, new HttpCallBack() {
             @Override
             public void onStart() {
-                Log.e(TAG, "=======onStart====");
 
                 httpHandler.onStart();
             }
 
             @Override
             public void onSuccess(String response) {
-                Log.e(TAG, "=======onSuccess====");
 
                 httpHandler.onSuccess(response);
             }
@@ -86,20 +84,16 @@ public class BloodSugarApi {
             @Override
             public void onFailure(int statusCode, String response, Throwable error) {
 
-                Log.e(TAG, "=======onFailure====");
-
                 httpHandler.onFailure(statusCode, response, error);
             }
 
             @Override
             public void onNetError() {
-                Log.e(TAG, "=======onNetError====");
                 httpHandler.onNetError();
             }
 
             @Override
             public void onFinish() {
-                Log.e(TAG, "=======onFinish====");
 
                 httpHandler.onFinish();
             }

@@ -1,7 +1,7 @@
 package cn.miao.ncncd.okhttp.entity;
 
 
-import com.alibaba.fastjson.JSONObject;
+import org.json.JSONObject;
 
 /**
  *  血糖实体类
@@ -11,12 +11,12 @@ import com.alibaba.fastjson.JSONObject;
 public class BloodSugar extends JSONObject {
 
     /**
-     * 血糖类型
+     * 血糖类型 1空腹 2餐后
      */
     private int type;
 
     /**
-     * 测量数值 1空腹 2餐后
+     * 测量数值
      */
     private float value;
 

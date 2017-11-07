@@ -1,5 +1,7 @@
 package cn.miao.ncncd.okhttp;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
@@ -33,28 +35,56 @@ public class BaseHttp {
      * @param httpCallBack
      */
     public static void okHttpGet(String url, Map<String, String> paramsMap, final HttpCallBack httpCallBack) {
+
+        final Handler handler = new Handler(Looper.getMainLooper());
+
         OkHttpClient client = new OkHttpClient();//创建OkHttpClient对象。
         Request request = new Request.Builder()//创建Request 对象。
                 .url(setGetParams(url, paramsMap))
                 .build();
 
-        httpCallBack.onStart();
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                httpCallBack.onStart();
+            }
+        });
+
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                httpCallBack.onNetError();
+
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        httpCallBack.onNetError();
+                    }
+                });
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
+            public void onResponse(Call call, final Response response) throws IOException {
 
-                if (response.isSuccessful()) {
-                    httpCallBack.onSuccess(response.body().string());
-                } else {
-                    httpCallBack.onFailure(response.code(), response.message(), null);
-                }
+                //跳转到主线程
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
 
-                httpCallBack.onFinish();
+                        if (response.isSuccessful()) {
+
+                            try {
+                                httpCallBack.onSuccess(response.body().string());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+
+                            httpCallBack.onFailure(response.code(), response.message(), null);
+                        }
+
+                        httpCallBack.onFinish();
+                    }
+                });
             }
         });
     }
@@ -68,6 +98,8 @@ public class BaseHttp {
      */
     public static void okHttpPost(String url, Object object, final HttpCallBack httpCallBack) {
 
+        final Handler handler = new Handler(Looper.getMainLooper());
+
         MediaType JSON1 = MediaType.parse("application/json; charset=utf-8");//数据类型为json格式，
         RequestBody body = RequestBody.create(JSON1, JSON.toJSONString(object));
 
@@ -76,7 +108,13 @@ public class BaseHttp {
                 .url(url)
                 .post(body)
                 .build();
-        httpCallBack.onStart();
+
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                httpCallBack.onStart();
+            }
+        });
 
         /*打印请求url、参数*/
         Log.e(TAG, "url:" + url);
@@ -85,29 +123,47 @@ public class BaseHttp {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                httpCallBack.onNetError();
+
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        httpCallBack.onNetError();
+                    }
+                });
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
+            public void onResponse(Call call, final Response response) throws IOException {
 
-                String body = response.body().string();
+                //跳转到主线程
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        String body = null;
+                        try {
+                            body = response.body().string();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
 
-                Log.e(TAG, "===========" + body);
+                        Log.e(TAG, "RespBody:" + body);
 
-                CommonResp commonResp = JSON.parseObject(body, CommonResp.class);
+                        CommonResp commonResp = JSON.parseObject(body, CommonResp.class);
 
-                if (commonResp.getErrNo() == 0) {
+                        if (commonResp.getErrNo() == 0) {
 
-                    httpCallBack.onSuccess(body);
+                            httpCallBack.onSuccess(body);
 
-                } else {
+                        } else {
 
-                    httpCallBack.onFailure(commonResp.getErrNo(), commonResp.getErrMsg(), null);
-                }
+                            httpCallBack.onFailure(commonResp.getErrNo(), commonResp.getErrMsg(), null);
 
-                httpCallBack.onFinish();
+                        }
 
+                        httpCallBack.onFinish();
+
+                    }
+                });
             }
         });
     }
