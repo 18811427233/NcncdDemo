@@ -12,14 +12,17 @@ import java.util.List;
 
 import cn.miao.ncncd.api.BloodSugarApi;
 import cn.miao.ncncd.api.CallBackInterface;
+import cn.miao.ncncd.api.HealthApi;
 import cn.miao.ncncd.okhttp.entity.BloodSugar;
+import cn.miao.ncncd.okhttp.entity.Health;
 
 public class MainActivity extends AppCompatActivity {
 
     private final String TAG = this.getClass().getName();
 
     /*签名调试*/
-    private Button btnSign;
+    private Button btnBloodSugar;
+    private Button btnHealth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +40,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void initView() {
-        btnSign = findViewById(R.id.btn_sign);
+        btnBloodSugar = findViewById(R.id.btn_blood_sugar);
+        btnHealth = findViewById(R.id.btn_health);
     }
 
     public void initData() {
@@ -46,8 +50,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void initEvent() {
 
-        /*签名*/
-        btnSign.setOnClickListener(new View.OnClickListener() {
+        /*上传血糖数据*/
+        btnBloodSugar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -93,5 +97,59 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         });
+
+        /*上传健康数据*/
+        btnHealth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                List<Health> healthList = new ArrayList<Health>();
+                for (int i = 0; i < 1; i++) {
+                    /*业务参数*/
+                    Health health = new Health();
+                    health.setBmd(0);
+                    health.setBmi(0);
+                    health.setBmr(0);
+                    health.setBodyFat(0);
+                    health.setMoistureRate(0);
+                    health.setMuscleRate(0);
+                    health.setSampleTime(0);
+                    healthList.add(health);
+                }
+
+                HealthApi.health("18811427233", healthList, new CallBackInterface() {
+
+                    @Override
+                    public void onStart() {
+                        Log.e(TAG, "====onStart=====");
+                    }
+
+                    @Override
+                    public void onSuccess() {
+                        Log.e(TAG, "====onSuccess=====");
+                    }
+
+                    @Override
+                    public void onFailure(String response) {
+                        Log.e(TAG, "====onFailure=====");
+                        Toast.makeText(MainActivity.this, response, Toast.LENGTH_SHORT).show();
+
+                    }
+
+                    @Override
+                    public void onNetError() {
+                        Log.e(TAG, "====onNetError=====");
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                        Log.e(TAG, "====onFinish=====");
+                    }
+                });
+            }
+        });
+
+
     }
 }
